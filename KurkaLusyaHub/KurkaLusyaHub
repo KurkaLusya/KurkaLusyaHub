@@ -356,3 +356,14 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 		gui.Enabled = not gui.Enabled
 	end
 end)
+
+-- Skeleton ESP --
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local gui = playerGui:WaitForChild("KurkaLusyaScreenGui")
+local button = gui:WaitForChild("KurkaLusyaButton1")
+
+button.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/KurkaLusya/KurkaLusyaHub/refs/heads/main/KurkaLusyaHub/Skeleton%20ESP.lua"))()
+end)
