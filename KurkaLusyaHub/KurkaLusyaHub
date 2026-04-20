@@ -1,1 +1,358 @@
-print("Sorry, the script is not ready yet. Please wait until we finish it.")
+-- Получаем игрока
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Удаляем старый GUI (если был)
+local old = playerGui:FindFirstChild("KurkaLusyaScreenGui")
+if old then
+	old:Destroy()
+end
+
+-- Создаем ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "KurkaLusyaScreenGui"
+screenGui.Parent = playerGui
+screenGui.DisplayOrder = 999
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.ResetOnSpawn = false
+
+-- Создаем Frame
+local frame = Instance.new("Frame")
+frame.Name = "KurkaLusyaFrame"
+frame.Parent = screenGui
+
+frame.Size = UDim2.new(0, 500, 0, 400)
+frame.Position = UDim2.new(0.323, 0, 0.241, 0)
+frame.BackgroundColor3 = Color3.fromRGB(59, 59, 59)
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+frame.ZIndex = 10
+
+-- UIDragDetector
+local dragDetector = Instance.new("UIDragDetector")
+dragDetector.Name = "UIDragDetectorKurkaLusya"
+dragDetector.Parent = frame
+
+-- ================= ICON =================
+local icon = Instance.new("ImageLabel")
+icon.Name = "KurkaLusyaIcon"
+icon.Parent = frame
+
+icon.Size = UDim2.new(0, 100, 0, 100)
+icon.Position = UDim2.new(0.022, 0, 0.025, 0)
+icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+icon.BorderSizePixel = 2
+icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+icon.Image = "rbxassetid://118435609581479"
+icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+icon.ZIndex = 11
+
+-- ================= TEXT LABEL 1 =================
+local text1 = Instance.new("TextLabel")
+text1.Name = "KurkaLusyaTextLabel1"
+text1.Parent = frame
+
+text1.Size = UDim2.new(0, 365, 0, 100)
+text1.Position = UDim2.new(0.25, 0, 0.025, 0)
+text1.BackgroundColor3 = Color3.fromRGB(59, 59, 59)
+text1.BorderSizePixel = 2
+text1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+text1.Font = Enum.Font.FredokaOne
+text1.TextColor3 = Color3.fromRGB(59, 59, 59)
+text1.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+text1.TextStrokeTransparency = 0
+text1.TextSize = 54
+text1.Text = "KurkaLusyaHub"
+text1.ZIndex = 11
+
+-- ================= TEXT LABEL 2 =================
+local text2 = Instance.new("TextLabel")
+text2.Name = "KurkaLusyaTextLabel2"
+text2.Parent = frame
+
+text2.Size = UDim2.new(0, 150, 0, 32)
+text2.Position = UDim2.new(0.68, 0, 0.92, 0)
+
+text2.BackgroundTransparency = 1
+text2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+text2.Font = Enum.Font.FredokaOne
+text2.TextColor3 = Color3.fromRGB(59, 59, 59)
+text2.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+text2.TextStrokeTransparency = 0
+
+text2.TextSize = 14
+text2.Text = "Creator: KurkaLusya"
+text2.ZIndex = 11
+
+-- ================= BUTTON 1 =================
+local button = Instance.new("TextButton")
+button.Name = "KurkaLusyaButton1"
+button.Parent = frame
+
+button.Size = UDim2.new(0, 150, 0, 50)
+button.Position = UDim2.new(0.022, 0, 0.795, 0)
+
+button.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button.BorderSizePixel = 2
+button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button.Font = Enum.Font.FredokaOne
+button.TextColor3 = Color3.fromRGB(59, 59, 59)
+button.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button.TextStrokeTransparency = 0
+
+button.TextSize = 18
+button.Text = "Button"
+button.ZIndex = 11
+
+-- ================= BUTTON 2 =================
+local button2 = Instance.new("TextButton")
+button2.Name = "KurkaLusyaButton2"
+button2.Parent = frame
+
+button2.Size = UDim2.new(0, 150, 0, 50)
+button2.Position = UDim2.new(0.68, 0, 0.795, 0)
+
+button2.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button2.BorderSizePixel = 2
+button2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button2.Font = Enum.Font.FredokaOne
+button2.TextColor3 = Color3.fromRGB(59, 59, 59)
+button2.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button2.TextStrokeTransparency = 0
+
+button2.TextSize = 18
+button2.Text = "Button"
+button2.ZIndex = 11
+
+-- ================= BUTTON 3 =================
+local button3 = Instance.new("TextButton")
+button3.Name = "KurkaLusyaButton3"
+button3.Parent = frame
+
+button3.Size = UDim2.new(0, 150, 0, 50)
+button3.Position = UDim2.new(0.35, 0, 0.795, 0)
+
+button3.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button3.BorderSizePixel = 2
+button3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button3.Font = Enum.Font.FredokaOne
+button3.TextColor3 = Color3.fromRGB(59, 59, 59)
+button3.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button3.TextStrokeTransparency = 0
+
+button3.TextSize = 18
+button3.Text = "Button"
+button3.ZIndex = 11
+
+-- ================= BUTTON 4 =================
+local button4 = Instance.new("TextButton")
+button4.Name = "KurkaLusyaButton4"
+button4.Parent = frame
+
+button4.Size = UDim2.new(0, 150, 0, 50)
+button4.Position = UDim2.new(0.35, 0, 0.645, 0)
+
+button4.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button4.BorderSizePixel = 2
+button4.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button4.Font = Enum.Font.FredokaOne
+button4.TextColor3 = Color3.fromRGB(59, 59, 59)
+button4.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button4.TextStrokeTransparency = 0
+
+button4.TextSize = 18
+button4.Text = "Button"
+button4.ZIndex = 11
+
+-- ================= BUTTON 5 =================
+local button5 = Instance.new("TextButton")
+button5.Name = "KurkaLusyaButton5"
+button5.Parent = frame
+
+button5.Size = UDim2.new(0, 150, 0, 50)
+button5.Position = UDim2.new(0.022, 0, 0.645, 0)
+
+button5.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button5.BorderSizePixel = 2
+button5.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button5.Font = Enum.Font.FredokaOne
+button5.TextColor3 = Color3.fromRGB(59, 59, 59)
+button5.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button5.TextStrokeTransparency = 0
+
+button5.TextSize = 18
+button5.Text = "Button"
+button5.ZIndex = 11
+
+-- ================= BUTTON 6 =================
+local button6 = Instance.new("TextButton")
+button6.Name = "KurkaLusyaButton6"
+button6.Parent = frame
+
+button6.Size = UDim2.new(0, 150, 0, 50)
+button6.Position = UDim2.new(0.68, 0, 0.645, 0)
+
+button6.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button6.BorderSizePixel = 2
+button6.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button6.Font = Enum.Font.FredokaOne
+button6.TextColor3 = Color3.fromRGB(59, 59, 59)
+button6.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button6.TextStrokeTransparency = 0
+
+button6.TextSize = 18
+button6.Text = "Button"
+button6.ZIndex = 11
+
+-- ================= BUTTON 7 =================
+local button7 = Instance.new("TextButton")
+button7.Name = "KurkaLusyaButton7"
+button7.Parent = frame
+
+button7.Size = UDim2.new(0, 150, 0, 50)
+button7.Position = UDim2.new(0.68, 0, 0.34, 0)
+
+button7.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button7.BorderSizePixel = 2
+button7.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button7.Font = Enum.Font.FredokaOne
+button7.TextColor3 = Color3.fromRGB(59, 59, 59)
+button7.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button7.TextStrokeTransparency = 0
+
+button7.TextSize = 18
+button7.Text = "Button"
+button7.ZIndex = 11
+
+-- ================= BUTTON 8 =================
+local button8 = Instance.new("TextButton")
+button8.Name = "KurkaLusyaButton8"
+button8.Parent = frame
+
+button8.Size = UDim2.new(0, 150, 0, 50)
+button8.Position = UDim2.new(0.68, 0, 0.49, 0)
+
+button8.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button8.BorderSizePixel = 2
+button8.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button8.Font = Enum.Font.FredokaOne
+button8.TextColor3 = Color3.fromRGB(59, 59, 59)
+button8.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button8.TextStrokeTransparency = 0
+
+button8.TextSize = 18
+button8.Text = "Button"
+button8.ZIndex = 11
+
+-- ================= BUTTON 9 =================
+local button9 = Instance.new("TextButton")
+button9.Name = "KurkaLusyaButton9"
+button9.Parent = frame
+
+button9.Size = UDim2.new(0, 150, 0, 50)
+button9.Position = UDim2.new(0.35, 0, 0.49, 0)
+
+button9.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button9.BorderSizePixel = 2
+button9.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button9.Font = Enum.Font.FredokaOne
+button9.TextColor3 = Color3.fromRGB(59, 59, 59)
+button9.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button9.TextStrokeTransparency = 0
+
+button9.TextSize = 18
+button9.Text = "Button"
+button9.ZIndex = 11
+
+-- ================= BUTTON 10 =================
+local button10 = Instance.new("TextButton")
+button10.Name = "KurkaLusyaButton10"
+button10.Parent = frame
+
+button10.Size = UDim2.new(0, 150, 0, 50)
+button10.Position = UDim2.new(0.35, 0, 0.34, 0)
+
+button10.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button10.BorderSizePixel = 2
+button10.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button10.Font = Enum.Font.FredokaOne
+button10.TextColor3 = Color3.fromRGB(59, 59, 59)
+button10.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button10.TextStrokeTransparency = 0
+
+button10.TextSize = 18
+button10.Text = "Button"
+button10.ZIndex = 11
+
+-- ================= BUTTON 11 =================
+local button11 = Instance.new("TextButton")
+button11.Name = "KurkaLusyaButton11"
+button11.Parent = frame
+
+button11.Size = UDim2.new(0, 150, 0, 50)
+button11.Position = UDim2.new(0.022, 0, 0.34, 0)
+
+button11.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button11.BorderSizePixel = 2
+button11.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button11.Font = Enum.Font.FredokaOne
+button11.TextColor3 = Color3.fromRGB(59, 59, 59)
+button11.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button11.TextStrokeTransparency = 0
+
+button11.TextSize = 18
+button11.Text = "Button"
+button11.ZIndex = 11
+
+-- ================= BUTTON 12 =================
+local button12 = Instance.new("TextButton")
+button12.Name = "KurkaLusyaButton12"
+button12.Parent = frame
+
+button12.Size = UDim2.new(0, 150, 0, 50)
+button12.Position = UDim2.new(0.022, 0, 0.49, 0)
+
+button12.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+button12.BorderSizePixel = 2
+button12.BorderColor3 = Color3.fromRGB(0, 0, 0)
+
+button12.Font = Enum.Font.FredokaOne
+button12.TextColor3 = Color3.fromRGB(59, 59, 59)
+button12.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button12.TextStrokeTransparency = 0
+
+button12.TextSize = 18
+button12.Text = "Button"
+button12.ZIndex = 11
+
+-- ================= Off|On KurkaLusyaHub-menu =================
+local UserInputService = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+
+-- Ждем PlayerGui
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Находим твой ScreenGui
+local gui = playerGui:WaitForChild("KurkaLusyaScreenGui")
+
+-- Обработчик нажатия клавиши
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	
+	if input.KeyCode == Enum.KeyCode.RightShift then
+		gui.Enabled = not gui.Enabled
+	end
+end)
