@@ -1,0 +1,120 @@
+local FillTransparency = 0.5
+local OutlineColor = Color3.fromRGB(255,255,255)
+local OutlineTransparency = 0
+local DepthMode = "AlwaysOnTop"
+
+local CoreGui = game:FindService("CoreGui")
+local Players = game:FindService("Players")
+local RunService = game:GetService("RunService")
+local lp = Players.LocalPlayer
+
+-- Глобальные переменные
+local playerHighlights = {}
+local connections = {}
+local rainbowConnection
+
+-- Функция полной очистки
+local function cleanupAll()
+    if rainbowConnection then
+        rainbowConnection:Disconnect()
+        rainbowConnection = nil
+    end
+    
+    for plr, highlight in pairs(playerHighlights) do
+        if highlight then
+            highlight:Destroy()
+        end
+        playerHighlights[plr] = nil
+    end
+    
+    for plr, conn in pairs(connections) do
+        if conn then
+            conn:Disconnect()
+        end
+        connections[plr] = nil
+    end
+    
+    local storage = CoreGui:FindFirstChild("HighlightToggle")
+    if storage then
+        storage:Destroy()
+    end
+end
+
+-- Проверяем toggle состояние
+local toggleFolder = CoreGui:FindFirstChild("HighlightToggle")
+if toggleFolder then
+    -- Состояние ВКЛЮЧЕНО → отключаем
+    print("🟢 Highlight OFF (было включено)")
+    cleanupAll()
+    print("🔴 Highlight выключен")
+else
+    -- Состояние ВЫКЛЮЧЕНО → включаем
+    print("🔴 Highlight ON (было выключено)")
+    
+    local Storage = Instance.new("Folder")
+    Storage.Name = "HighlightToggle"
+    Storage.Parent = CoreGui
+    
+    local function getRainbowColor(timeOffset)
+        local frequency = 1
+        local r = math.sin(frequency * timeOffset + 0) * 127 + 128
+        local g = math.sin(frequency * timeOffset + 2) * 127 + 128
+        local b = math.sin(frequency * timeOffset + 4) * 127 + 128
+        return Color3.fromRGB(math.floor(r), math.floor(g), math.floor(b))
+    end
+    
+    local function createHighlight(plr)
+        local Highlight = Instance.new("Highlight")
+        Highlight.Name = plr.Name
+        Highlight.DepthMode = DepthMode
+        Highlight.FillTransparency = FillTransparency
+        Highlight.OutlineColor = OutlineColor
+        Highlight.OutlineTransparency = OutlineTransparency
+        Highlight.Parent = Storage
+        
+        playerHighlights[plr] = Highlight
+
+        local plrchar = plr.Character
+        if plrchar then
+            Highlight.Adornee = plrchar
+        end
+
+        connections[plr] = plr.CharacterAdded:Connect(function(char)
+            Highlight.Adornee = char
+        end)
+    end
+    
+    -- Запускаем радугу
+    rainbowConnection = RunService.Heartbeat:Connect(function()
+        local time = tick()
+        local currentColor = getRainbowColor(time)
+        
+        for plr, highlight in pairs(playerHighlights) do
+            if highlight and highlight.Parent then
+                highlight.FillColor = currentColor
+            end
+        end
+    end)
+    
+    -- Подключаем всех игроков
+    Players.PlayerAdded:Connect(createHighlight)
+    for _, v in next, Players:GetPlayers() do
+        createHighlight(v)
+    end
+    
+    -- Очистка при выходе игрока
+    Players.PlayerRemoving:Connect(function(plr)
+        local highlight = playerHighlights[plr]
+        if highlight then
+            highlight:Destroy()
+            playerHighlights[plr] = nil
+        end
+        
+        if connections[plr] then
+            connections[plr]:Disconnect()
+            connections[plr] = nil
+        end
+    end)
+    
+    print("🟢 Highlight включен (радуга работает!)")
+end
