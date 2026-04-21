@@ -104,7 +104,7 @@ button.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 button.TextStrokeTransparency = 0
 
 button.TextSize = 18
-button.Text = "Button"
+button.Text = "Solid AimLock"
 button.ZIndex = 11
 
 -- ================= BUTTON 2 =================
@@ -125,7 +125,7 @@ button2.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 button2.TextStrokeTransparency = 0
 
 button2.TextSize = 18
-button2.Text = "Button"
+button2.Text = "Smooth AimLock"
 button2.ZIndex = 11
 
 -- ================= BUTTON 3 =================
@@ -146,7 +146,7 @@ button3.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 button3.TextStrokeTransparency = 0
 
 button3.TextSize = 18
-button3.Text = "Button"
+button3.Text = "Chams"
 button3.ZIndex = 11
 
 -- ================= BUTTON 4 =================
