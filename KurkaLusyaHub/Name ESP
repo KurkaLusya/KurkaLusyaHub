@@ -1,93 +1,119 @@
-local c = workspace.CurrentCamera
-local ps = game:GetService("Players")
-local lp = ps.LocalPlayer
-local rs = game:GetService("RunService")
+-- GLOBAL ESP TOGGLE - ОДИНАКОВЫЕ ЦВЕТА У ВСЕХ
+getgenv().ESP_TOGGLE = getgenv().ESP_TOGGLE or false
+getgenv().GLOBAL_HUE = getgenv().GLOBAL_HUE or 0
 
--- Глобальная переменная для синхронизированной анимации
-local globalHue = 0
+local camera = workspace.CurrentCamera
+local players = game:GetService("Players")
+local runService = game:GetService("RunService")
+local localPlayer = players.LocalPlayer
 
-local function esp(p,cr)
-	local h = cr:WaitForChild("Humanoid")
-	local hrp = cr:WaitForChild("Head")
+local espObjects = {}
 
-	local text = Drawing.new("Text")
-	text.Visible = false
-	text.Center = true
-	text.Outline = false 
-	text.Font = 3
-	text.Size = 16.16
-	text.Color = Color3.new(1,1,1)
-
-	local conection
-	local conection2
-	local conection3
-
-	local function dc()
-		text.Visible = false
-		text:Remove()
-		if conection then
-			conection:Disconnect()
-			conection = nil 
-		end
-		if conection2 then
-			conection2:Disconnect()
-			conection2 = nil 
-		end
-		if conection3 then
-			conection3:Disconnect()
-			conection3 = nil 
-		end
-	end
-
-	conection2 = cr.AncestryChanged:Connect(function(_,parent)
-		if not parent then
-			dc()
-		end
-	end)
-
-	conection3 = h.HealthChanged:Connect(function(v)
-		if (v<=0) or (h:GetState() == Enum.HumanoidStateType.Dead) then
-			dc()
-		end
-	end)
-
-	conection = rs.RenderStepped:Connect(function()
-		local hrp_pos,hrp_onscreen = c:WorldToViewportPoint(hrp.Position)
-		if hrp_onscreen then
-			text.Position = Vector2.new(hrp_pos.X, hrp_pos.Y - 27)
-			text.Text = "[ "..p.Name.." ]"
-			text.Visible = true
-			
-			-- Все используют одну и ту же глобальную фазу цвета
-			local color = Color3.fromHSV(globalHue, 1, 1)
-			text.Color = color
-		else
-			text.Visible = false
-		end
-	end)
+-- ОЧИСТКА ВСЕГО
+local function cleanup()
+    for _, obj in pairs(espObjects) do
+        if obj.text then obj.text:Remove() end
+        for _, conn in pairs(obj.connections) do
+            if conn then conn:Disconnect() end
+        end
+    end
+    espObjects = {}
 end
 
--- Глобальный рендерер для синхронизированной анимации
-rs.RenderStepped:Connect(function()
-	globalHue = globalHue + 0.008
-	if globalHue >= 1 then
-		globalHue = 0
-	end
+-- СОЗДАНИЕ ESP ДЛЯ ОДНОГО ИГРОКА
+local function createESP(player, character)
+    local humanoid = character:WaitForChild("Humanoid")
+    local head = character:WaitForChild("Head")
+    
+    local text = Drawing.new("Text")
+    text.Size = 16
+    text.Center = true
+    text.Outline = false
+    text.Font = 3
+    text.Color = Color3.fromRGB(255, 255, 255)
+    
+    local connections = {}
+    
+    connections.render = runService.RenderStepped:Connect(function()
+        if not getgenv().ESP_TOGGLE then 
+            cleanup()
+            return 
+        end
+        
+        local pos, onScreen = camera:WorldToViewportPoint(head.Position)
+        if onScreen then
+            text.Position = Vector2.new(pos.X, pos.Y - 30)
+            text.Text = "[" .. player.Name .. "]"
+            text.Visible = true
+            -- ОДИНАКОВЫЙ ЦВET ДЛЯ ВСЕХ ИЗ getgenv().GLOBAL_HUE
+            text.Color = Color3.fromHSV(getgenv().GLOBAL_HUE, 1, 1)
+        else
+            text.Visible = false
+        end
+    end)
+    
+    connections.death = humanoid.Died:Connect(function()
+        cleanupESP(player)
+    end)
+    
+    connections.removed = character.AncestryChanged:Connect(function()
+        if not character.Parent then
+            cleanupESP(player)
+        end
+    end)
+    
+    espObjects[player] = {
+        text = text,
+        connections = connections
+    }
+end
+
+local function cleanupESP(player)
+    if espObjects[player] then
+        local obj = espObjects[player]
+        if obj.text then obj.text:Remove() end
+        for _, conn in pairs(obj.connections) do
+            if conn then conn:Disconnect() end
+        end
+        espObjects[player] = nil
+    end
+end
+
+-- ТОГГЛ
+if getgenv().ESP_TOGGLE then
+    getgenv().ESP_TOGGLE = false
+    cleanup()
+    print("ESP ВЫКЛЮЧЕН")
+else
+    getgenv().ESP_TOGGLE = true
+    cleanup() -- чистим старое
+    
+    -- ГЛОБАЛЬНАЯ АНИМАЦИЯ ЦВЕТА ДЛЯ ВСЕХ (синхронизированная)
+    spawn(function()
+        while getgenv().ESP_TOGGLE do
+            getgenv().GLOBAL_HUE = getgenv().GLOBAL_HUE + 0.008
+            if getgenv().GLOBAL_HUE >= 1 then 
+                getgenv().GLOBAL_HUE = 0 
+            end
+            wait()
+        end
+    end)
+    
+    -- ВСЕ ИГРОКИ
+    for _, player in pairs(players:GetPlayers()) do
+        if player ~= localPlayer and player.Character then
+            createESP(player, player.Character)
+        end
+    end
+    
+    print("ESP ВКЛЮЧЕН - ОДИНАКОВЫЕ ЦВЕТА!")
+end
+
+-- НОВЫЕ ИГРОКИ
+players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        if getgenv().ESP_TOGGLE then
+            createESP(player, character)
+        end
+    end)
 end)
-
-local function p_added(p)
-	if p.Character then
-		esp(p,p.Character)
-	end
-	p.CharacterAdded:Connect(function(cr)
-		esp(p,cr)
-	end)
-end
-
-for i,p in next, ps:GetPlayers() do 
-	if p ~= lp then
-		p_added(p)
-	end
-end
-
-ps.PlayerAdded:Connect(p_added)
