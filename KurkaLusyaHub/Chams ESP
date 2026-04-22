@@ -1,1 +1,120 @@
-local v0=0.5;local v1=Color3.fromRGB(1640 -(1103 + 282) ,255,219 + 36 );local v2=350 -(87 + 263) ;local v3="AlwaysOnTop";local v4=game:FindService("CoreGui");local v5=game:FindService("Players");local v6=game:GetService("RunService");local v7=v5.LocalPlayer;local v8={};local v9={};local v10;local function v11() local v19=180 -(67 + 113) ;local v20;while true do if (v19==(1 + 0)) then for v46,v47 in pairs(v9) do if v47 then v47:Disconnect();end v9[v46]=nil;end v20=v4:FindFirstChild("HighlightToggle");v19=4 -2 ;end if (v19==0) then if v10 then local v55=0 + 0 ;while true do if (v55==(0 -0)) then v10:Disconnect();v10=nil;break;end end end for v49,v50 in pairs(v8) do if v50 then v50:Destroy();end v8[v49]=nil;end v19=953 -(802 + 150) ;end if (v19==2) then if v20 then v20:Destroy();end break;end end end local v12=v4:FindFirstChild("HighlightToggle");if v12 then local v22=0;while true do if (v22==(0 -0)) then print("🟢 Highlight OFF (было включено)");v11();v22=1 -0 ;end if (v22==1) then print("🔴 Highlight выключен");break;end end else print("🔴 Highlight ON (было выключено)");local v23=Instance.new("Folder");v23.Name="HighlightToggle";v23.Parent=v4;local function v26(v29) local v30=1 + 0 ;local v31=(math.sin((v30 * v29) + 0 ) * (1124 -(915 + 82))) + (362 -234) ;local v32=(math.sin((v30 * v29) + 2 + 0 ) * 127) + 128 ;local v33=(math.sin((v30 * v29) + (4 -0) ) * 127) + (1315 -(1069 + 118)) ;return Color3.fromRGB(math.floor(v31),math.floor(v32),math.floor(v33));end local function v27(v34) local v35=0;local v36;local v37;while true do if (v35==(2 -1)) then v36.FillTransparency=v0;v36.OutlineColor=v1;v36.OutlineTransparency=v2;v35=2;end if (v35==3) then if v37 then v36.Adornee=v37;end v9[v34]=v34.CharacterAdded:Connect(function(v67) v36.Adornee=v67;end);break;end if (0==v35) then v36=Instance.new("Highlight");v36.Name=v34.Name;v36.DepthMode=v3;v35=1 -0 ;end if (v35==2) then v36.Parent=v23;v8[v34]=v36;v37=v34.Character;v35=1 + 2 ;end end end v10=v6.Heartbeat:Connect(function() local v38=0 -0 ;local v39;local v40;while true do if (v38==0) then v39=tick();v40=v26(v39);v38=1 + 0 ;end if (v38==1) then for v69,v70 in pairs(v8) do if (v70 and v70.Parent) then v70.FillColor=v40;end end break;end end end);v5.PlayerAdded:Connect(v27);for v41,v42 in next,v5:GetPlayers() do v27(v42);end v5.PlayerRemoving:Connect(function(v43) local v44=791 -(368 + 423) ;local v45;while true do if (v44==(3 -2)) then if v9[v43] then local v72=0;while true do if (v72==0) then v9[v43]:Disconnect();v9[v43]=nil;break;end end end break;end if ((18 -(10 + 8))==v44) then v45=v8[v43];if v45 then v45:Destroy();v8[v43]=nil;end v44=1;end end end);print("🟢 Highlight включен (радуга работает!)");end local v5=game:GetService("Players");local v13=game:GetService("StarterGui");local v14=v5.LocalPlayer;local v15=v14:WaitForChild("PlayerGui");local v16=v15:FindFirstChild("ParticleToggleState");if  not v16 then local v28=0;while true do if (v28==(0 -0)) then v16=Instance.new("BoolValue");v16.Name="ParticleToggleState";v28=1;end if (v28==1) then v16.Value=false;v16.Parent=v15;break;end end end v16.Value= not v16.Value;local function v18(v21) v13:SetCore("SendNotification",{Title="Внимание!",Text=v21,Icon="rbxassetid://118435609581479",Duration=445 -(416 + 26) });end if v16.Value then v18("Включен Chams ESP");else v18("Выключен Chams ESP");end
+local FillTransparency = 0.5
+local OutlineColor = Color3.fromRGB(255,255,255)
+local OutlineTransparency = 0
+local DepthMode = "AlwaysOnTop"
+
+local CoreGui = game:FindService("CoreGui")
+local Players = game:FindService("Players")
+local RunService = game:GetService("RunService")
+local lp = Players.LocalPlayer
+
+-- Глобальные переменные
+local playerHighlights = {}
+local connections = {}
+local rainbowConnection
+
+-- Функция полной очистки
+local function cleanupAll()
+    if rainbowConnection then
+        rainbowConnection:Disconnect()
+        rainbowConnection = nil
+    end
+    
+    for plr, highlight in pairs(playerHighlights) do
+        if highlight then
+            highlight:Destroy()
+        end
+        playerHighlights[plr] = nil
+    end
+    
+    for plr, conn in pairs(connections) do
+        if conn then
+            conn:Disconnect()
+        end
+        connections[plr] = nil
+    end
+    
+    local storage = CoreGui:FindFirstChild("HighlightToggle")
+    if storage then
+        storage:Destroy()
+    end
+end
+
+-- Проверяем toggle состояние
+local toggleFolder = CoreGui:FindFirstChild("HighlightToggle")
+if toggleFolder then
+    -- Состояние ВКЛЮЧЕНО → отключаем
+    print("🟢 Highlight OFF (было включено)")
+    cleanupAll()
+    print("🔴 Highlight выключен")
+else
+    -- Состояние ВЫКЛЮЧЕНО → включаем
+    print("🔴 Highlight ON (было выключено)")
+    
+    local Storage = Instance.new("Folder")
+    Storage.Name = "HighlightToggle"
+    Storage.Parent = CoreGui
+    
+    local function getRainbowColor(timeOffset)
+        local frequency = 1
+        local r = math.sin(frequency * timeOffset + 0) * 127 + 128
+        local g = math.sin(frequency * timeOffset + 2) * 127 + 128
+        local b = math.sin(frequency * timeOffset + 4) * 127 + 128
+        return Color3.fromRGB(math.floor(r), math.floor(g), math.floor(b))
+    end
+    
+    local function createHighlight(plr)
+        local Highlight = Instance.new("Highlight")
+        Highlight.Name = plr.Name
+        Highlight.DepthMode = DepthMode
+        Highlight.FillTransparency = FillTransparency
+        Highlight.OutlineColor = OutlineColor
+        Highlight.OutlineTransparency = OutlineTransparency
+        Highlight.Parent = Storage
+        
+        playerHighlights[plr] = Highlight
+
+        local plrchar = plr.Character
+        if plrchar then
+            Highlight.Adornee = plrchar
+        end
+
+        connections[plr] = plr.CharacterAdded:Connect(function(char)
+            Highlight.Adornee = char
+        end)
+    end
+    
+    -- Запускаем радугу
+    rainbowConnection = RunService.Heartbeat:Connect(function()
+        local time = tick()
+        local currentColor = getRainbowColor(time)
+        
+        for plr, highlight in pairs(playerHighlights) do
+            if highlight and highlight.Parent then
+                highlight.FillColor = currentColor
+            end
+        end
+    end)
+    
+    -- Подключаем всех игроков
+    Players.PlayerAdded:Connect(createHighlight)
+    for _, v in next, Players:GetPlayers() do
+        createHighlight(v)
+    end
+    
+    -- Очистка при выходе игрока
+    Players.PlayerRemoving:Connect(function(plr)
+        local highlight = playerHighlights[plr]
+        if highlight then
+            highlight:Destroy()
+            playerHighlights[plr] = nil
+        end
+        
+        if connections[plr] then
+            connections[plr]:Disconnect()
+            connections[plr] = nil
+        end
+    end)
+    
+    print("🟢 Highlight включен (радуга работает!)")
+end
