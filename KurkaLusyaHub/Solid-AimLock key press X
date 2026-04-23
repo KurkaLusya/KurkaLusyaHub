@@ -1,1 +1,255 @@
-local v0=getgenv or getfenv ;local v1=v0().AIMBOT_MINIMAL_ACTIVE;if (v1==true) then local v83=0;while true do if (v83==(0 -0)) then print("🔴 Minimal Aimbot отключен!");if v0().ExtremeAimbotV2 then v0().ExtremeAimbotV2:Exit();end v83=1;end if (v83==1) then v0().ExtremeAimbotV2=nil;v0().AIMBOT_MINIMAL_ACTIVE=false;v83=1 + 1 ;end if (v83==(3 -1)) then return;end end else print("🟢 Плавная радуга запущена!");v0().AIMBOT_MINIMAL_ACTIVE=true;end local v2,v3=game,workspace;local v4,v5,v6,v7,v0,v8,v9=getrawmetatable,getmetatable,setmetatable,pcall,v0,next,tick;local v10,v11,v12,v13,v14,v15,v16=Vector2.new,Vector3.zero,CFrame.new,Color3.fromRGB,Color3.fromHSV,Drawing.new,TweenInfo.new;local v17,v18,v19,v20,v21,v22,v23=debug.getupvalue,mousemoverel or (Input and Input.MouseMove) ,table.find,table.remove,string.lower,string.sub,math.clamp;local v24=(v4 and v4(v2)) or {__index=function(v62,v63) return v62[v63];end,__newindex=function(v64,v65,v66) v64[v65]=v66;end} ;local v25=v24.__index;local v26=v24.__newindex;local v27,v28=getrenderproperty or v25 ,setrenderproperty or v26 ;local v29=v25(v2,"GetService");local v30=v29(v2,"RunService");local v31=v29(v2,"UserInputService");local v32=v29(v2,"TweenService");local v33=v29(v2,"Players");local v34=v25(v33,"LocalPlayer");local v35=v25(v3,"CurrentCamera");local v36=v25(v2,"FindFirstChild");local v37=v25(v2,"FindFirstChildOfClass");local v38=v25(v2,"GetDescendants");local v39=v25(v35,"WorldToViewportPoint");local v40=v25(v35,"GetPartsObscuringTarget");local v41=v25(v31,"GetMouseLocation");local v42=v25(v33,"GetPlayers");local v43,v44,v45,v46,v47,v48=2438 -(145 + 293) ,false,false,{};local v49=v25(v2,"DescendantAdded").Connect;v0().ExtremeAimbotV2={DeveloperSettings={UpdateMode="RenderStepped",TeamCheckOption="TeamColor",RainbowSpeed=0.3},Settings={Enabled=true,TeamCheck=false,AliveCheck=true,WallCheck=false,OffsetToMoveDirection=false,OffsetIncrement=445 -(44 + 386) ,Sensitivity=1486 -(998 + 488) ,Sensitivity2=1.5 + 2 ,LockMode=1 + 0 ,LockPart="Head",TriggerKey=Enum.KeyCode.X,Toggle=false},FOVSettings={Enabled=true,Visible=true,Radius=862 -(201 + 571) ,NumSides=1198 -(116 + 1022) ,Thickness=0.5,Transparency=0.9 -0 ,Filled=false,RainbowColor=true,RainbowOutlineColor=true,Color=v13(255,150 + 105 ,255),OutlineColor=v13(255,0 -0 ,905 -650 ),LockedColor=v13(255,909 -(814 + 45) ,123 -73 )},Blacklisted={},FOVCircleOutline=v15("Circle"),FOVCircle=v15("Circle"),RainbowTime=0 + 0 };local v51=v0().ExtremeAimbotV2;v28(v51.FOVCircle,"Visible",false);v28(v51.FOVCircleOutline,"Visible",false);local v52=function(v68) local v69=0;local v70;while true do if (v69==(1 + 0)) then return v70;end if (v69==(885 -(261 + 624))) then v70=nil;for v99,v100 in v8,v42(v33) do local v101=v25(v100,"Name");if (v22(v21(v101),1 -0 , #v68)==v21(v68)) then v70=v101;end end v69=1;end end end;local v53=function() v51.RainbowTime=v51.RainbowTime + (v51.DeveloperSettings.RainbowSpeed * (1080.016 -(1020 + 60))) ;if (v51.RainbowTime>=1) then v51.RainbowTime=1423 -(630 + 793) ;end return v14(v51.RainbowTime,3 -2 ,4 -3 );end;local v54=function(v72) return v10(v72.X,v72.Y);end;local v55=function() local v73=0 + 0 ;while true do if (v73==0) then v51.Locked=nil;v28(v51.FOVCircle,"Color",v51.FOVSettings.Color);v73=3 -2 ;end if (v73==(1748 -(760 + 987))) then if v48 then v26(v31,"MouseDeltaSensitivity",v48);end if v47 then v47:Cancel();end break;end end end;local v56=function() local v74=1913 -(1789 + 124) ;local v75;local v76;while true do if (v74==1) then if  not v51.Locked then v43=(v51.FOVSettings.Enabled and v51.FOVSettings.Radius) or (2766 -(745 + 21)) ;for v103,v104 in v8,v42(v33) do local v105=0 + 0 ;local v106;local v107;while true do if (v105==(2 -1)) then if ((v104~=v34) and  not v19(v51.Blacklisted,v25(v104,"Name")) and v106 and v36(v106,v76) and v107) then local v116=0 -0 ;local v117;local v118;local v119;local v120;local v121;while true do if (v116==(1 + 3)) then if ((v121<v43) and v120) then v43,v51.Locked=v121,v104;end break;end if (v116==(1 + 0)) then if (v75.TeamCheck and (v25(v104,v118)==v25(v34,v118))) then continue;end if (v75.AliveCheck and (v25(v107,"Health")<=(1055 -(87 + 968)))) then continue;end v116=2;end if (v116==(8 -6)) then if v75.WallCheck then local v129=0;local v130;while true do if (v129==(0 + 0)) then v130=v38(v25(v34,"Character"));for v132,v133 in v8,v38(v106) do v130[ #v130 + (2 -1) ]=v133;end v129=1414 -(447 + 966) ;end if ((2 -1)==v129) then if ( #v40(v35,{v117},v130)>0) then continue;end break;end end end v119,v120=v39(v35,v117);v116=1820 -(1703 + 114) ;end if (v116==3) then v119=v54(v119);v121=(v41(v31) -v119).Magnitude;v116=4;end if (v116==0) then v117=v25(v106[v76],"Position");v118=v51.DeveloperSettings.TeamCheckOption;v116=1;end end end break;end if (0==v105) then v106=v25(v104,"Character");v107=v106 and v37(v106,"Humanoid") ;v105=1;end end end elseif ((v41(v31) -v54(v39(v35,v25(v25(v25(v51.Locked,"Character"),v76),"Position")))).Magnitude>v43) then v55();end break;end if (v74==(701 -(376 + 325))) then v75=v51.Settings;v76=v75.LockPart;v74=1;end end end;local v57=function() v48=v25(v31,"MouseDeltaSensitivity");local v77=v51.Settings;local v78=v51.FOVSettings;v46.RenderSteppedConnection=v49(v25(v30,v51.DeveloperSettings.UpdateMode),function() local v85=0 -0 ;while true do if (v85==0) then if (v78.Enabled and v77.Enabled) then local v108=0 -0 ;local v109;local v110;while true do if (v108==3) then v28(v51.FOVCircle,"Position",v41(v31));v28(v51.FOVCircleOutline,"Position",v41(v31));break;end if ((0 + 0)==v108) then for v113,v114 in v8,v78 do local v115=0;while true do if (v115==(0 -0)) then if (v113=="Color") then continue;end if v7(v27,v51.FOVCircle,v113) then local v127=14 -(9 + 5) ;while true do if (v127==(376 -(85 + 291))) then v28(v51.FOVCircle,v113,v114);v28(v51.FOVCircleOutline,v113,v114);break;end end end break;end end end v109=(v51.Locked and v78.LockedColor) or (v78.RainbowColor and v53()) or v78.Color ;v108=1266 -(243 + 1022) ;end if (v108==2) then v28(v51.FOVCircleOutline,"Color",v110);v28(v51.FOVCircleOutline,"Thickness",v78.Thickness);v108=3;end if (v108==1) then v110=(v78.RainbowOutlineColor and v53()) or v78.OutlineColor ;v28(v51.FOVCircle,"Color",v109);v108=7 -5 ;end end else v28(v51.FOVCircle,"Visible",false);v28(v51.FOVCircleOutline,"Visible",false);end if (v45 and v77.Enabled) then local v111=0;local v112;while true do if (v111==(0 + 0)) then v56();v112=(v77.OffsetToMoveDirection and (v25(v37(v25(v51.Locked,"Character"),"Humanoid"),"MoveDirection") * (v23(v77.OffsetIncrement,1181 -(1123 + 57) ,30)/(9 + 1)))) or v11 ;v111=255 -(163 + 91) ;end if (v111==(1931 -(1869 + 61))) then if v51.Locked then local v122=0 + 0 ;local v123;local v124;while true do if (v122==(3 -2)) then if (v51.Settings.LockMode==(2 -0)) then v18((v124.X-v41(v31).X)/v77.Sensitivity2 ,(v124.Y-v41(v31).Y)/v77.Sensitivity2 );else local v131=0;while true do if (v131==(0 + 0)) then if (v77.Sensitivity>(0 -0)) then local v135=0 + 0 ;while true do if (v135==(1474 -(1329 + 145))) then v47=v32:Create(v35,v16(v77.Sensitivity,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{CFrame=v12(v35.CFrame.Position,v123)});v47:Play();break;end end else v26(v35,"CFrame",v12(v35.CFrame.Position,v123 + v112 ));end v26(v31,"MouseDeltaSensitivity",971 -(140 + 831) );break;end end end break;end if (v122==0) then v123=v25(v25(v51.Locked,"Character")[v51.Settings.LockPart],"Position");v124=v39(v35,v123 + v112 );v122=1851 -(1409 + 441) ;end end end break;end end end break;end end end);v46.InputBeganConnection=v49(v25(v31,"InputBegan"),function(v86) if v44 then return;end local v87=v77.TriggerKey;if ((v86.UserInputType==Enum.UserInputType.Keyboard) and (v86.KeyCode==v87) and v77.Enabled) then if v77.Toggle then local v102=718 -(15 + 703) ;while true do if (v102==(0 + 0)) then v45= not v45;if  not v45 then v55();end break;end end else v45=true;end end end);v46.InputEndedConnection=v49(v25(v31,"InputEnded"),function(v88) if (v77.Toggle or v44) then return;end local v89=v77.TriggerKey;if ((v88.UserInputType==Enum.UserInputType.Keyboard) and (v88.KeyCode==v89)) then local v96=0;while true do if (v96==(438 -(262 + 176))) then v45=false;v55();break;end end end end);end;v46.TypingStartedConnection=v49(v25(v31,"TextBoxFocused"),function() v44=true;end);v46.TypingEndedConnection=v49(v25(v31,"TextBoxFocusReleased"),function() v44=false;end);v51.Exit=function() for v90,v91 in v8,v46 do if (v91 and v91.Disconnect) then v91:Disconnect();end end if v51.FOVCircle then v51.FOVCircle:Remove();end if v51.FOVCircleOutline then v51.FOVCircleOutline:Remove();end v0().ExtremeAimbotV2=nil;end;v51.Load=v57;v6(v51,{__call=v57});v51:Load();print("✅ Плавная радуга готова! 🌀 | X = aim");
+--[[ Extreme Aimbot V2 - Плавная радуга ]]
+
+local getgenv = getgenv or getfenv
+
+-- ✅ ТOGGLE ЛОГИКА
+local AIMBOT_ACTIVE = getgenv().AIMBOT_MINIMAL_ACTIVE
+
+if AIMBOT_ACTIVE == true then
+	print("🔴 Minimal Aimbot отключен!")
+	if getgenv().ExtremeAimbotV2 then
+		getgenv().ExtremeAimbotV2:Exit()
+	end
+	getgenv().ExtremeAimbotV2 = nil
+	getgenv().AIMBOT_MINIMAL_ACTIVE = false
+	return
+else
+	print("🟢 Плавная радуга запущена!")
+	getgenv().AIMBOT_MINIMAL_ACTIVE = true
+end
+
+-- ✅ ОСНОВНОЙ КОД (плавная радуга)
+local game, workspace = game, workspace
+local getrawmetatable, getmetatable, setmetatable, pcall, getgenv, next, tick = getrawmetatable, getmetatable, setmetatable, pcall, getgenv, next, tick
+local Vector2new, Vector3zero, CFramenew, Color3fromRGB, Color3fromHSV, Drawingnew, TweenInfonew = Vector2.new, Vector3.zero, CFrame.new, Color3.fromRGB, Color3.fromHSV, Drawing.new, TweenInfo.new
+local getupvalue, mousemoverel, tablefind, tableremove, stringlower, stringsub, mathclamp = debug.getupvalue, mousemoverel or (Input and Input.MouseMove), table.find, table.remove, string.lower, string.sub, math.clamp
+
+local GameMetatable = getrawmetatable and getrawmetatable(game) or {
+	__index = function(self, Index) return self[Index] end,
+	__newindex = function(self, Index, Value) self[Index] = Value end
+}
+
+local __index = GameMetatable.__index
+local __newindex = GameMetatable.__newindex
+local getrenderproperty, setrenderproperty = getrenderproperty or __index, setrenderproperty or __newindex
+local GetService = __index(game, "GetService")
+
+local RunService = GetService(game, "RunService")
+local UserInputService = GetService(game, "UserInputService")
+local TweenService = GetService(game, "TweenService")
+local Players = GetService(game, "Players")
+
+local LocalPlayer = __index(Players, "LocalPlayer")
+local Camera = __index(workspace, "CurrentCamera")
+
+local FindFirstChild = __index(game, "FindFirstChild")
+local FindFirstChildOfClass = __index(game, "FindFirstChildOfClass")
+local GetDescendants = __index(game, "GetDescendants")
+local WorldToViewportPoint = __index(Camera, "WorldToViewportPoint")
+local GetPartsObscuringTarget = __index(Camera, "GetPartsObscuringTarget")
+local GetMouseLocation = __index(UserInputService, "GetMouseLocation")
+local GetPlayers = __index(Players, "GetPlayers")
+
+local RequiredDistance, Typing, Running, ServiceConnections, Animation, OriginalSensitivity = 2000, false, false, {}
+local Connect = __index(game, "DescendantAdded").Connect
+
+getgenv().ExtremeAimbotV2 = {
+	DeveloperSettings = {
+		UpdateMode = "RenderStepped",
+		TeamCheckOption = "TeamColor",
+		RainbowSpeed = 0.3  -- 🌀 Медленнее = плавнее
+	},
+	Settings = {
+		Enabled = true,
+		TeamCheck = false,
+		AliveCheck = true,
+		WallCheck = false,
+		OffsetToMoveDirection = false,
+		OffsetIncrement = 15,
+		Sensitivity = 0,
+		Sensitivity2 = 3.5,
+		LockMode = 1,
+		LockPart = "Head",
+		TriggerKey = Enum.KeyCode.X,
+		Toggle = false
+	},
+	FOVSettings = {
+		Enabled = true,
+		Visible = true,
+		Radius = 90,
+		NumSides = 60,
+		Thickness = 0.5,
+		Transparency = 0.9,
+		Filled = false,
+		RainbowColor = true,
+		RainbowOutlineColor = true,
+		Color = Color3fromRGB(255, 255, 255),
+		OutlineColor = Color3fromRGB(255, 0, 255),
+		LockedColor = Color3fromRGB(255, 50, 50)
+	},
+	Blacklisted = {},
+	FOVCircleOutline = Drawingnew("Circle"),
+	FOVCircle = Drawingnew("Circle"),
+	RainbowTime = 0  -- 🌀 Для плавности
+}
+
+local Environment = getgenv().ExtremeAimbotV2
+
+setrenderproperty(Environment.FOVCircle, "Visible", false)
+setrenderproperty(Environment.FOVCircleOutline, "Visible", false)
+
+local FixUsername = function(String)
+	local Result
+	for _, Value in next, GetPlayers(Players) do
+		local Name = __index(Value, "Name")
+		if stringsub(stringlower(Name), 1, #String) == stringlower(String) then
+			Result = Name
+		end
+	end
+	return Result
+end
+
+-- 🌀 ПЛАВНАЯ РАДУГА (с накоплением времени)
+local GetSmoothRainbowColor = function()
+	Environment.RainbowTime = Environment.RainbowTime + Environment.DeveloperSettings.RainbowSpeed * 0.016  -- 60 FPS delta
+	if Environment.RainbowTime >= 1 then
+		Environment.RainbowTime = 0
+	end
+	return Color3fromHSV(Environment.RainbowTime, 1, 1)
+end
+
+local ConvertVector = function(Vector)
+	return Vector2new(Vector.X, Vector.Y)
+end
+
+local CancelLock = function()
+	Environment.Locked = nil
+	setrenderproperty(Environment.FOVCircle, "Color", Environment.FOVSettings.Color)
+	if OriginalSensitivity then
+		__newindex(UserInputService, "MouseDeltaSensitivity", OriginalSensitivity)
+	end
+	if Animation then Animation:Cancel() end
+end
+
+local GetClosestPlayer = function()
+	local Settings = Environment.Settings
+	local LockPart = Settings.LockPart
+	if not Environment.Locked then
+		RequiredDistance = Environment.FOVSettings.Enabled and Environment.FOVSettings.Radius or 2000
+		for _, Value in next, GetPlayers(Players) do
+			local Character = __index(Value, "Character")
+			local Humanoid = Character and FindFirstChildOfClass(Character, "Humanoid")
+			if Value ~= LocalPlayer and not tablefind(Environment.Blacklisted, __index(Value, "Name")) and Character and FindFirstChild(Character, LockPart) and Humanoid then
+				local PartPosition = __index(Character[LockPart], "Position")
+				local TeamCheckOption = Environment.DeveloperSettings.TeamCheckOption
+				if Settings.TeamCheck and __index(Value, TeamCheckOption) == __index(LocalPlayer, TeamCheckOption) then continue end
+				if Settings.AliveCheck and __index(Humanoid, "Health") <= 0 then continue end
+				if Settings.WallCheck then
+					local BlacklistTable = GetDescendants(__index(LocalPlayer, "Character"))
+					for _, v in next, GetDescendants(Character) do BlacklistTable[#BlacklistTable + 1] = v end
+					if #GetPartsObscuringTarget(Camera, {PartPosition}, BlacklistTable) > 0 then continue end
+				end
+				local Vector, OnScreen = WorldToViewportPoint(Camera, PartPosition)
+				Vector = ConvertVector(Vector)
+				local Distance = (GetMouseLocation(UserInputService) - Vector).Magnitude
+				if Distance < RequiredDistance and OnScreen then
+					RequiredDistance, Environment.Locked = Distance, Value
+				end
+			end
+		end
+	elseif (GetMouseLocation(UserInputService) - ConvertVector(WorldToViewportPoint(Camera, __index(__index(__index(Environment.Locked, "Character"), LockPart), "Position")))).Magnitude > RequiredDistance then
+		CancelLock()
+	end
+end
+
+local Load = function()
+	OriginalSensitivity = __index(UserInputService, "MouseDeltaSensitivity")
+	local Settings = Environment.Settings
+	local FOVSettings = Environment.FOVSettings
+	ServiceConnections.RenderSteppedConnection = Connect(__index(RunService, Environment.DeveloperSettings.UpdateMode), function()
+		if FOVSettings.Enabled and Settings.Enabled then
+			for Index, Value in next, FOVSettings do
+				if Index == "Color" then continue end
+				if pcall(getrenderproperty, Environment.FOVCircle, Index) then
+					setrenderproperty(Environment.FOVCircle, Index, Value)
+					setrenderproperty(Environment.FOVCircleOutline, Index, Value)
+				end
+			end
+			
+			-- 🌀 ПЛАВНАЯ РАДУГА
+			local mainColor = Environment.Locked and FOVSettings.LockedColor or 
+			                  (FOVSettings.RainbowColor and GetSmoothRainbowColor() or FOVSettings.Color)
+			local outlineColor = FOVSettings.RainbowOutlineColor and GetSmoothRainbowColor() or FOVSettings.OutlineColor
+			
+			setrenderproperty(Environment.FOVCircle, "Color", mainColor)
+			setrenderproperty(Environment.FOVCircleOutline, "Color", outlineColor)
+			setrenderproperty(Environment.FOVCircleOutline, "Thickness", FOVSettings.Thickness)
+			setrenderproperty(Environment.FOVCircle, "Position", GetMouseLocation(UserInputService))
+			setrenderproperty(Environment.FOVCircleOutline, "Position", GetMouseLocation(UserInputService))
+		else
+			setrenderproperty(Environment.FOVCircle, "Visible", false)
+			setrenderproperty(Environment.FOVCircleOutline, "Visible", false)
+		end
+		if Running and Settings.Enabled then
+			GetClosestPlayer()
+			local Offset = Settings.OffsetToMoveDirection and __index(FindFirstChildOfClass(__index(Environment.Locked, "Character"), "Humanoid"), "MoveDirection") * (mathclamp(Settings.OffsetIncrement, 1, 30) / 10) or Vector3zero
+			if Environment.Locked then
+				local LockedPosition_Vector3 = __index(__index(Environment.Locked, "Character")[Environment.Settings.LockPart], "Position")
+				local LockedPosition = WorldToViewportPoint(Camera, LockedPosition_Vector3 + Offset)
+				if Environment.Settings.LockMode == 2 then
+					mousemoverel((LockedPosition.X - GetMouseLocation(UserInputService).X) / Settings.Sensitivity2, (LockedPosition.Y - GetMouseLocation(UserInputService).Y) / Settings.Sensitivity2)
+				else
+					if Settings.Sensitivity > 0 then
+						Animation = TweenService:Create(Camera, TweenInfonew(Settings.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFramenew(Camera.CFrame.Position, LockedPosition_Vector3)})
+						Animation:Play()
+					else
+						__newindex(Camera, "CFrame", CFramenew(Camera.CFrame.Position, LockedPosition_Vector3 + Offset))
+					end
+					__newindex(UserInputService, "MouseDeltaSensitivity", 0)
+				end
+			end
+		end
+	end)
+
+	ServiceConnections.InputBeganConnection = Connect(__index(UserInputService, "InputBegan"), function(Input)
+		if Typing then return end
+		local TriggerKey = Settings.TriggerKey
+		if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode == TriggerKey and Settings.Enabled then
+			if Settings.Toggle then
+				Running = not Running
+				if not Running then CancelLock() end
+			else
+				Running = true
+			end
+		end
+	end)
+
+	ServiceConnections.InputEndedConnection = Connect(__index(UserInputService, "InputEnded"), function(Input)
+		if Settings.Toggle or Typing then return end
+		local TriggerKey = Settings.TriggerKey
+		if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode == TriggerKey then
+			Running = false
+			CancelLock()
+		end
+	end)
+end
+
+ServiceConnections.TypingStartedConnection = Connect(__index(UserInputService, "TextBoxFocused"), function() Typing = true end)
+ServiceConnections.TypingEndedConnection = Connect(__index(UserInputService, "TextBoxFocusReleased"), function() Typing = false end)
+
+function Environment.Exit()
+	for Index, Connection in next, ServiceConnections do
+		if Connection and Connection.Disconnect then
+			Connection:Disconnect()
+		end
+	end
+	if Environment.FOVCircle then Environment.FOVCircle:Remove() end
+	if Environment.FOVCircleOutline then Environment.FOVCircleOutline:Remove() end
+	getgenv().ExtremeAimbotV2 = nil
+end
+
+Environment.Load = Load
+setmetatable(Environment, {__call = Load})
+
+Environment:Load()
+print("✅ Плавная радуга готова! 🌀 | X = aim")
