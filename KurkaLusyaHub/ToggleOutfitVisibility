@@ -1,0 +1,108 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- ===== СОСТОЯНИЯ =====
+if player:GetAttribute("HairInvisible") == nil then
+	player:SetAttribute("HairInvisible", false)
+end
+
+if player:GetAttribute("ClothesInvisible") == nil then
+	player:SetAttribute("ClothesInvisible", false)
+end
+
+-- ===== СПИСОК ОДЕЖДЫ =====
+local CLOTHES = {
+	"WastelandPants",
+	"WastelandShirt",
+	"GhillieLegs",
+	"GhillieTorso",
+	"GorkaPants",
+	"GorkaShirt",
+	"CamoShirt",
+	"CamoPants",
+	"CivilianShirt",
+	"CivilianPants"
+}
+
+-- ===== СПИСОК АКСЕССУАРОВ =====
+local EXTRAS = {
+	"GP5",
+	"Balaclava",
+	"GhillieHood"
+}
+
+local function isInList(name, list)
+	for _, v in ipairs(list) do
+		if v == name then
+			return true
+		end
+	end
+	return false
+end
+
+-- ===== ПРОЗРАЧНОСТЬ =====
+local function setTransparency(obj, value)
+	for _, v in ipairs(obj:GetDescendants()) do
+		if v:IsA("BasePart") then
+			v.Transparency = value
+			v.CanCollide = false
+		end
+	end
+end
+
+-- ===== ВОЛОСЫ =====
+local function applyHair(char)
+	local hair = char:FindFirstChild("Hair")
+	if not hair then return end
+	
+	local invisible = player:GetAttribute("HairInvisible")
+	setTransparency(hair, invisible and 1 or 0)
+end
+
+-- ===== ОДЕЖДА + АКСЕССУАРЫ =====
+local function applyClothes(char)
+	local invisible = player:GetAttribute("ClothesInvisible")
+
+	for _, v in ipairs(char:GetChildren()) do
+		if v:IsA("Model") and (isInList(v.Name, CLOTHES) or isInList(v.Name, EXTRAS)) then
+			setTransparency(v, invisible and 1 or 0)
+		end
+	end
+end
+
+-- ===== SETUP =====
+local function setup(char)
+	task.wait(0.2)
+
+	applyHair(char)
+	applyClothes(char)
+
+	char.ChildAdded:Connect(function(child)
+		task.wait(0.1)
+
+		-- волосы
+		if child.Name == "Hair" then
+			local invisible = player:GetAttribute("HairInvisible")
+			setTransparency(child, invisible and 1 or 0)
+		end
+
+		-- одежда + аксессуары
+		if child:IsA("Model") and (isInList(child.Name, CLOTHES) or isInList(child.Name, EXTRAS)) then
+			local invisible = player:GetAttribute("ClothesInvisible")
+			setTransparency(child, invisible and 1 or 0)
+		end
+	end)
+end
+
+-- ===== ПЕРЕКЛЮЧЕНИЕ =====
+player:SetAttribute("HairInvisible", not player:GetAttribute("HairInvisible"))
+player:SetAttribute("ClothesInvisible", not player:GetAttribute("ClothesInvisible"))
+
+-- ===== ЗАПУСК =====
+local character = player.Character or player.CharacterAdded:Wait()
+setup(character)
+
+applyHair(character)
+applyClothes(character)
+
+player.CharacterAdded:Connect(setup)
