@@ -1,0 +1,81 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- toggle состояние сохраняем через Attribute (чтобы работало при повторном запуске)
+if player:GetAttribute("ClothesToggle") == nil then
+	player:SetAttribute("ClothesToggle", false)
+end
+
+-- ID
+local NEW_SHIRT = "rbxassetid://136490715786770"
+local NEW_PANTS = "rbxassetid://123802907065166"
+local NEW_FACE  = "rbxassetid://82382554473198"
+
+local OLD_SHIRT = "http://www.roblox.com/asset/?id=5812338094"
+local OLD_PANTS = "http://www.roblox.com/asset/?id=224941104"
+local OLD_FACE  = "rbxassetid://115795194269299"
+
+-- 1. заходим в Camera
+local camera = workspace:FindFirstChild("Camera")
+if not camera then
+	warn("Camera не найдена")
+	return
+end
+
+-- 2. ищем модель с ником в Camera
+local camCharacter = camera:FindFirstChild(player.Name)
+if not camCharacter then
+	warn("Модель в Camera не найдена")
+	return
+end
+
+-- 3. берём ник (имя модели)
+local charName = camCharacter.Name
+
+-- 4. ищем такую же модель в Workspace
+local realCharacter = workspace:FindFirstChild(charName)
+if not realCharacter then
+	warn("Модель в Workspace не найдена")
+	return
+end
+
+-- 5. ищем или создаём одежду
+local shirt = realCharacter:FindFirstChildOfClass("Shirt") or Instance.new("Shirt", realCharacter)
+local pants = realCharacter:FindFirstChildOfClass("Pants") or Instance.new("Pants", realCharacter)
+
+-- 6. ищем лицо
+local head = realCharacter:FindFirstChild("Head")
+if not head then
+	warn("Head не найден")
+	return
+end
+
+local face = nil
+for _, v in ipairs(head:GetChildren()) do
+	if v:IsA("Decal") then
+		face = v
+		break
+	end
+end
+
+if not face then
+	face = Instance.new("Decal")
+	face.Name = "face"
+	face.Parent = head
+end
+
+-- 7. переключение
+local toggled = player:GetAttribute("ClothesToggle")
+
+if not toggled then
+	shirt.ShirtTemplate = NEW_SHIRT
+	pants.PantsTemplate = NEW_PANTS
+	face.Texture = NEW_FACE
+else
+	shirt.ShirtTemplate = OLD_SHIRT
+	pants.PantsTemplate = OLD_PANTS
+	face.Texture = OLD_FACE
+end
+
+-- меняем состояние
+player:SetAttribute("ClothesToggle", not toggled)
