@@ -1,0 +1,41 @@
+local Players = game:GetService("Players")
+local ContextActionService = game:GetService("ContextActionService")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+-- toggle
+if player:GetAttribute("FovToggle") == nil then
+	player:SetAttribute("FovToggle", false)
+end
+
+local toggled = player:GetAttribute("FovToggle")
+local newState = not toggled
+player:SetAttribute("FovToggle", newState)
+
+-- если выключаем
+if not newState then
+	ContextActionService:UnbindAction("FovZoom")
+	return
+end
+
+-- сохраняем FOV
+local defaultFov = camera.FieldOfView
+
+-- функция
+local function handle(actionName, inputState, inputObject)
+	if inputState == Enum.UserInputState.Begin then
+		camera.FieldOfView = 10
+	elseif inputState == Enum.UserInputState.End then
+		camera.FieldOfView = defaultFov
+	end
+	return Enum.ContextActionResult.Pass
+end
+
+-- биндим на C
+ContextActionService:BindAction(
+	"FovZoom",
+	handle,
+	false,
+	Enum.KeyCode.C
+)
