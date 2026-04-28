@@ -1,0 +1,43 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local existing = playerGui:FindFirstChild("CrosshairGui")
+
+-- 🔁 TOGGLE
+if existing then
+	existing:Destroy() -- выключаем
+	return
+end
+
+-- включаем
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CrosshairGui"
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = playerGui
+
+local crosshair = Instance.new("ImageLabel")
+crosshair.Name = "Dot"
+crosshair.Parent = screenGui
+
+crosshair.Size = UDim2.new(0, 10, 0, 10)
+crosshair.Position = UDim2.new(0.5, 0, 0.5, 0)
+crosshair.AnchorPoint = Vector2.new(0.5, 0.5)
+
+crosshair.BackgroundTransparency = 1
+crosshair.Image = "rbxassetid://118435609581479"
+crosshair.ScaleType = Enum.ScaleType.Stretch
+
+-- круг
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(1, 0)
+corner.Parent = crosshair
+
+-- вращение
+RunService.RenderStepped:Connect(function()
+	if crosshair and crosshair.Parent then
+		crosshair.Rotation += 5
+	end
+end)
